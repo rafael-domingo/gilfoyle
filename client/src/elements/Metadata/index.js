@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Metadata() {
+function Metadata({data}) {
     const divStyle = {
         color: 'white',
         fontSize: '2em',
@@ -12,9 +12,9 @@ function Metadata() {
     }
     return (
         <div style={divStyle}>
-            <p>Current Price</p>
+            <p>Current Price: ${data.price}</p>
             <p>Average Price</p>
-            <p>Change</p>
+            <p>1 Day Change: ${data["1d"].price_change}</p>
         </div>
 
     )

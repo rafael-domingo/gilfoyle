@@ -1,9 +1,16 @@
 import React from 'react';
 import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
-function Graph() {
+function Graph({data}) {
+    const [graphData, setGraphData] = React.useState();
+
+    React.useEffect(() => {
+        setGraphData(data)
+        console.log('graph')
+    }, [data]);
+
     return (
         <div>
-            <Sparklines data={[5, 10, 5, 20, 8, 15]} limit={5} width={100} height={20} margin={5} limit={5}>
+            <Sparklines data={graphData} limit={9} width={100} height={20} margin={5}>
             <SparklinesLine color="white" style={{fill: 'none'}}/>
             <SparklinesSpots style={{stroke: 'white', fill: 'none'}}/>
             </Sparklines>

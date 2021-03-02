@@ -3,7 +3,14 @@ import React from 'react';
 import Graph from '../../elements/Graph';
 import Metadata from '../../elements/Metadata';
 
-function Detail() {
+function Detail({graph, metadata}) {
+    const [data, setData] = React.useState();
+
+    React.useEffect(() => {
+        setData(graph);
+        console.log('detail')
+    }, [graph])
+
     const divStyle = {
         backgroundColor: '#5E29D2',
         borderRadius: '50px',
@@ -20,12 +27,14 @@ function Detail() {
     }
     return (
         <div style={divStyle}>
-            <Graph />
+            <Graph data={data}/>
             <div style={metaDataStyle}>
-                <Metadata />
+                <Metadata data={metadata}/>
             </div>
         </div>
     )
+
+ 
 }
 
 export default Detail;

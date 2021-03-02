@@ -15,17 +15,20 @@ router.get('/:crypto', (req, res) => {
   .then(jsonResponse => {
       console.log(jsonResponse)
       res.json(jsonResponse)})
-  .catch(err => console.log(err))
+  .catch(err => res.json(err))
 }) 
 
 // Historical prices
 router.get('/:crypto/historical', (req, res) => {
-    fetch(`https://api.nomics.com/v1/currencies/sparkline?key=${apiKey}&ids=${req.params.crypto}&start=2018-04-14T00%3A00%3A00Z`)
+    fetch(`https://api.nomics.com/v1/currencies/sparkline?key=${apiKey}&ids=${req.params.crypto}&start=2021-01-01T00%3A00%3A00Z`)
     .then(response => response.json())
     .then(jsonResponse => {
         console.log(jsonResponse)
         res.json(jsonResponse)})
-    .catch(err => console.log(err))
+    .catch(err => {
+        console.log('error')
+        console.log(err)
+        res.json(err)})
 })
 
 module.exports = router;
