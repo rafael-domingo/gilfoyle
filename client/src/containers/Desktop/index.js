@@ -5,7 +5,7 @@ import React from 'react';
 import Title from '../../elements/Title';
 import Nav from '../../components/Nav';
 import Detail from '../../components/Detail';
-
+import Background from '../../elements/Background';
 // APIs
 import { NomicsAPI } from "../../util/Nomics";
 
@@ -53,107 +53,19 @@ function Desktop({data}) {
     if (loaded) {
       return (
         <div style={DivStyle}>
-           <Particles
-        options={{
-          backgroundMode: {
-            enable: true,
-            zIndex: -1000
-          },
-        background: {
-          color: "#000"
-        },  
-        fpsLimit: 60,
-        particles: {
-            color: {
-              value: ["#f67e7d", "#843b62", "#621940"]
-            },
-            links: {
-              color: "#ffb997",
-              enable: true
-            },
-            move: {
-              enable: true,
-              speed: 6
-            },
-            size: {
-              value: 5,
-              random: {
-                enable: true,
-                minimumValue: 1
-              },
-              animation: {
-                enable: true,
-                speed: 2.5,
-                minimumValue: 100
-              }
-            },
-            opacity: {
-              value: 0.8,
-              random: {
-                enable: true,
-                minimumValue: 0.4
-              }
-            }
-          }
-        }
-    }/>
-            <Title style={TitleStyle}/>
-            <Nav style={NavStyle}/>
-            <Detail style={DetailStyle} graph={graphData} metadata={data}/>
+          <Background />
+          <Title style={TitleStyle}/>
+          <Nav style={NavStyle}/>
+          <Detail style={DetailStyle} graph={graphData} metadata={data}/>
         </div>
     )
     } else {
       return (
         <div style={DivStyle}>
-           <Particles
-        options={{
-          backgroundMode: {
-            enable: true,
-            zIndex: -1000
-          },
-        background: {
-          color: "#000"
-        },  
-        fpsLimit: 60,
-        particles: {
-            color: {
-              value: ["#f67e7d", "#843b62", "#621940"]
-            },
-            links: {
-              color: "#ffb997",
-              enable: true
-            },
-            move: {
-              enable: true,
-              speed: 6
-            },
-            size: {
-              value: 5,
-              random: {
-                enable: true,
-                minimumValue: 1
-              },
-              animation: {
-                enable: true,
-                speed: 2.5,
-                minimumValue: 100
-              }
-            },
-            opacity: {
-              value: 0.8,
-              random: {
-                enable: true,
-                minimumValue: 0.4
-              }
-            }
-          }
-        }
-    }/>
+          <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          {/* <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}> */}
-            <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
-          {/* </div> */}
+          <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
         </div>
        
       )

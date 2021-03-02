@@ -1,6 +1,9 @@
 import './Nav.css';
 import React from 'react';
 
+// Packages
+import { Link } from "react-router-dom";
+
 function Nav() {
    
     const divStyle = {
@@ -31,7 +34,7 @@ function Nav() {
             <ul style={listStyle}>
                 {
                     list.map(item => {
-                        return <li key={item} style={itemStyle}>{item}</li>
+                        return <li key={item} style={itemStyle}><Link to={`/${item}`}>{item}</Link></li>
                     })
                 }
             </ul>

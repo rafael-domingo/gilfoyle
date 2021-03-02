@@ -1,12 +1,17 @@
 import './App.css';
 import React from 'react';
 
+// Components
 import Desktop from '../Desktop';
 import Mobile from '../Mobile';
 
+// APIs
 import { NomicsAPI } from '../../util/Nomics';
 
+// Packages
 import ReactLoading from 'react-loading';
+import { Switch, Route } from "react-router-dom";
+
 function App() {
   const [crypto, setCrypto] = React.useState();
   const [loaded, setLoaded] = React.useState(true);
@@ -22,7 +27,14 @@ function App() {
   if (loaded) {
     return (
       <div className="App">
-        <Desktop data={crypto}/>
+        <Switch>
+          <Route exact path='/'>
+            <Desktop data={crypto}/>
+          </Route>
+          <Route exact path='/:crypto'>
+            <Desktop data={crypto}/>
+          </Route>
+        </Switch>
       </div>
     );
   } else {
