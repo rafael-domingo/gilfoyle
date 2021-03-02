@@ -12,24 +12,41 @@ import { NomicsAPI } from "../../util/Nomics";
 // Packages
 import Particles from 'react-tsparticles';
 import ReactLoading from 'react-loading'
+import { useParams } from "react-router-dom";
 
-function Desktop({data}) {
+function Desktop({params}) {
+    const crypto = useParams().crypto || 'BTC';
     const [height, setHeight] = React.useState(window.innerHeight);
-    const [graphData, setGraphData] = React.useState();
+    const [graphData, setGraphData] = React.useState(null);
     const [loaded, setLoaded] = React.useState(false);
+    const [metaData, setMetaData] = React.useState(null);
+
     React.useEffect(() => {
         window.addEventListener('resize', () => setHeight(window.innerHeight));
         console.log(height);
     }, [height])
 
     React.useEffect(() => {
+      NomicsAPI.ticker(crypto).then(response => {
+        console.log(response[0])
+        console.log('ticker response received')
+        if (response) {
+          setMetaData(response[0]);
+        } else {
+          setMetaData([0])
+        }
+      })
       setTimeout(() => {
-        NomicsAPI.sparkline('DOGE').then(response => {  
-          setGraphData(response[0].prices)
-          console.log(response)});
+        NomicsAPI.sparkline(crypto).then(sparkResponse => {  
+          if (sparkResponse) {
+            setGraphData(sparkResponse[0].prices)
+          } else {
+            setGraphData([0])
+          }          
+          console.log(sparkResponse)});
           setLoaded(true);
       }, 1000)
-    }, [0])
+    }, [crypto])
 
     const DivStyle = {
         height: height,
@@ -50,13 +67,13 @@ function Desktop({data}) {
         width: '50%'
     }
 
-    if (loaded) {
+    if (loaded && graphData && metaData) {
       return (
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <Detail style={DetailStyle} graph={graphData} metadata={data}/>
+          <Detail style={DetailStyle} graph={graphData} metadata={metaData}/>
         </div>
     )
     } else {

@@ -24,17 +24,22 @@ function Nav() {
         fontSize: '3em'
     }
 
+    const linkStyle = {
+        textDecoration: 'none',
+        color: 'white'
+    }
+
     const list = [
-        'Bitcoin',
-        'Ethereum',
-        'Dogecoin'
+        'BTC',
+        'ETH',
+        'DOGE'
     ]
     return (
         <div style={divStyle}>
             <ul style={listStyle}>
                 {
                     list.map(item => {
-                        return <li key={item} style={itemStyle}><Link to={`/${item}`}>{item}</Link></li>
+                        return <li key={item} style={itemStyle}><Link to={`/${item}`} style={linkStyle}>{item}</Link></li>
                     })
                 }
             </ul>

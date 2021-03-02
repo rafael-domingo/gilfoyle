@@ -16,12 +16,12 @@ function App() {
   const [crypto, setCrypto] = React.useState();
   const [loaded, setLoaded] = React.useState(true);
   React.useEffect(() => {  
-    NomicsAPI.ticker('DOGE').then(response => {
-      console.log(response[0])
-      console.log('ticker response received')
-      setLoaded(true)
-      setCrypto(response[0])});
-    console.log('app')
+    // NomicsAPI.ticker('DOGE').then(response => {
+    //   console.log(response[0])
+    //   console.log('ticker response received')
+    //   setLoaded(true)
+    //   setCrypto(response[0])});
+    // console.log('app')
   },[0])
 
   if (loaded) {
@@ -29,10 +29,10 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path='/'>
-            <Desktop data={crypto}/>
+            <Desktop />
           </Route>
           <Route exact path='/:crypto'>
-            <Desktop data={crypto}/>
+            <Desktop />
           </Route>
         </Switch>
       </div>
