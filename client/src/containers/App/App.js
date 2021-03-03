@@ -32,7 +32,7 @@ function App() {
             <Desktop />
           </Route>
           <Route exact path='/:crypto'>
-            <Desktop />
+            <Desktop params={false}/>
           </Route>
         </Switch>
       </div>

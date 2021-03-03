@@ -18,7 +18,7 @@ function Desktop({params}) {
     const crypto = useParams().crypto || 'BTC';
     const [height, setHeight] = React.useState(window.innerHeight);
     const [graphData, setGraphData] = React.useState(null);
-    const [loaded, setLoaded] = React.useState(false);
+    const [loaded, setLoaded] = React.useState(params);
     const [metaData, setMetaData] = React.useState(null);
 
     React.useEffect(() => {
@@ -26,8 +26,9 @@ function Desktop({params}) {
         console.log(height);
     }, [height])
 
-    React.useEffect(() => {
+    const fetchCrypto = () => {
       NomicsAPI.ticker(crypto).then(response => {
+        setLoaded(true);
         console.log(response[0])
         console.log('ticker response received')
         if (response) {
@@ -36,16 +37,30 @@ function Desktop({params}) {
           setMetaData([0])
         }
       })
-      setTimeout(() => {
-        NomicsAPI.sparkline(crypto).then(sparkResponse => {  
-          if (sparkResponse) {
-            setGraphData(sparkResponse[0].prices)
-          } else {
-            setGraphData([0])
-          }          
-          console.log(sparkResponse)});
-          setLoaded(true);
-      }, 1000)
+    }
+
+    const fetchSparklines = () => { 
+      NomicsAPI.sparkline(crypto).then(sparkResponse => {  
+        if (sparkResponse[0]) {
+          setGraphData(sparkResponse[0].prices)
+        } else {
+          setGraphData([0])
+        }          
+        console.log(sparkResponse)});
+    }     
+
+    React.useEffect(() => {
+      setLoaded(false);
+      fetchCrypto();
+      // // fetchSparklines();
+      // const interval = setInterval(() => {
+      //   fetchCrypto();
+        setTimeout(() => {
+          fetchSparklines();
+        }, 1000)
+      // }, 10000);
+      
+      // return () => clearInterval(interval);
     }, [crypto])
 
     const DivStyle = {
@@ -73,7 +88,7 @@ function Desktop({params}) {
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <Detail style={DetailStyle} graph={graphData} metadata={metaData}/>
+          <Detail style={DetailStyle} graph={graphData} metadata={metaData} fetchCrypto={fetchCrypto} fetchSparklines={fetchSparklines}/>
         </div>
     )
     } else {
