@@ -30,12 +30,13 @@ function Desktop({params}) {
     const fetchCrypto = () => {
       NomicsAPI.ticker(crypto).then(response => {
         setLoaded(true);
-        console.log(response[0])
-        console.log('ticker response received')
+    
         if (response) {
           setMetaData(response[0]);
+          console.log(response[0])
+          console.log('ticker response received')
         } else {
-          return 
+          return;
         }
       })
     }
@@ -46,7 +47,7 @@ function Desktop({params}) {
         if (sparkResponse[0]) {
           setGraphData(sparkResponse[0].prices)
         } else {
-          setGraphData([0])
+          return;
         }          
         console.log(sparkResponse)});
     }     

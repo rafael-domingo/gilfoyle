@@ -8,14 +8,13 @@ import Metadata from '../../elements/Metadata';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import useSound from 'use-sound';
 
-// Assets
-// import sound from '/coin.mp3'
-
 function Detail({graph, metadata, fetchCrypto, fetchSparklines}) {
     const [data, setData] = React.useState();
+    const [sound, setSound] = React.useState(false);
 
     React.useEffect(() => {
         setData(graph);
+        // Call playsound to initialize, so next time it call
         console.log('detail')
     }, [graph])
 
@@ -48,11 +47,15 @@ function Detail({graph, metadata, fetchCrypto, fetchSparklines}) {
 
     return (
         <div style={divStyle}>
+            <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button>
              <div style={{width: '100%', height: '2em', display: 'flex', justifyContent: 'flex-end'}}>
                     <CountdownCircleTimer
                     isPlaying
                     onComplete={() => {
-                        playSound()
+                        if (sound) {
+                            playSound()
+                        }
+                        
                         // Fetch data on complete
                         fetchCrypto()
                         setTimeout(() => {
