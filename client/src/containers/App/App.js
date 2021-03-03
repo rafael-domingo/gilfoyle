@@ -34,6 +34,9 @@ function App() {
           <Route exact path='/:crypto'>
             <Desktop params={false}/>
           </Route>
+          <Route exact path='/settings'>
+            <Desktop />
+          </Route>
         </Switch>
       </div>
     );

@@ -4,6 +4,9 @@ import React from 'react';
 // Packages
 import { Link } from "react-router-dom";
 
+// Assets 
+import Setting from '../../assets/settings.png';
+
 function Nav() {
    
     const divStyle = {
@@ -11,12 +14,14 @@ function Nav() {
         width: '20%',
         display: 'flex',
         justifyContent: 'flex-start',
+        flexWrap: 'wrap',
         alignItems: 'center',
         height: '80%'
     }
 
     const listStyle = {
-        listStyleType: 'none'
+        listStyleType: 'none',
+        width: '100%'
     }
 
     const itemStyle = {
@@ -29,11 +34,21 @@ function Nav() {
         color: 'white'
     }
 
+    const imgStyle = {
+        width: 'auto',
+        height: '5em'
+    }
+
+    const divImgStyle = {
+        width: '100%'
+    }
+
     const list = [
         'BTC',
         'ETH',
         'DOGE'
     ]
+
     return (
         <div style={divStyle}>
             <ul style={listStyle}>
@@ -43,6 +58,11 @@ function Nav() {
                     })
                 }
             </ul>
+            <div style={divImgStyle}>
+                <Link to={`/settings`}>
+                    <img style={imgStyle} src={Setting} />
+                </Link>
+            </div>
         </div>
     )
 }

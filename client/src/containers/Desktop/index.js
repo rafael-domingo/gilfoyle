@@ -90,6 +90,15 @@ function Desktop({params}) {
           <Detail style={DetailStyle} graph={graphData} metadata={metaData} fetchCrypto={fetchCrypto} fetchSparklines={fetchSparklines}/>
         </div>
     )
+    }  else if (crypto === 'settings') {
+      return (
+        <div style={DivStyle}>
+          <Background />
+          <Title style={TitleStyle}/>
+          <Nav style={NavStyle}/>
+        </div>
+
+      )
     } else {
       return (
         <div style={DivStyle}>
@@ -97,6 +106,7 @@ function Desktop({params}) {
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
           <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
+          
         </div>
        
       )
