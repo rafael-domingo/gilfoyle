@@ -26,6 +26,7 @@ function Desktop({params}) {
         console.log(height);
     }, [height])
 
+    // Data fetching Crypto
     const fetchCrypto = () => {
       NomicsAPI.ticker(crypto).then(response => {
         setLoaded(true);
@@ -34,11 +35,12 @@ function Desktop({params}) {
         if (response) {
           setMetaData(response[0]);
         } else {
-          setMetaData([0])
+          return 
         }
       })
     }
 
+    // Data fetching Sparklines
     const fetchSparklines = () => { 
       NomicsAPI.sparkline(crypto).then(sparkResponse => {  
         if (sparkResponse[0]) {
@@ -49,18 +51,14 @@ function Desktop({params}) {
         console.log(sparkResponse)});
     }     
 
+    // Initial data fetch before countdown starts
     React.useEffect(() => {
       setLoaded(false);
       fetchCrypto();
-      // // fetchSparklines();
-      // const interval = setInterval(() => {
-      //   fetchCrypto();
-        setTimeout(() => {
-          fetchSparklines();
-        }, 1000)
-      // }, 10000);
+      setTimeout(() => {
+        fetchSparklines();
+      }, 1000)
       
-      // return () => clearInterval(interval);
     }, [crypto])
 
     const DivStyle = {
