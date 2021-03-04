@@ -4,9 +4,16 @@ import React from 'react';
 import Setting from '../../elements/Setting';
 
 // Packages
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-function Settings() {
+function Settings({alert, sound}) {
+    const variants = {
+        initial: { opacity: 0, x: 0},
+        enter: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: '100%', transition: {duration: 1.5}}
+    }
+
+
     const divStyle = {
         backgroundColor: 'rgba(62, 63, 79, 0.9)',
         borderRadius: '50px',
@@ -46,26 +53,43 @@ function Settings() {
         textAlign: 'right',
         fontSize: '1em'
     }
+
+    const handleAlert = (value) => {
+        return alert(value);
+    }
+
+    const handleSound = (value) => {
+        return sound(value);
+    }
+
     return (
-        <div style={divStyle}>
-            <div style={titleStyle}>
-                Settings
-            </div>
-            <div style={soundStyle}>
-                <div style={subtitleStyle}>
-                    Sound Settings
-                </div>                
-                <Setting params="Gilfoyle"/>
-                <Setting params="Chill"/>
-            </div>
-            <div style={changeStyle}>
-                <div style={subtitleStyle}>
-                    Alert Settings
-                </div>                
-                <Setting params="Relative"/>
-                <Setting params="Absolute"/>
-            </div>
-        </div>
+        <AnimatePresence>
+            <motion.div
+            style={divStyle}
+            initial = "initial"
+            animate="enter"
+            transition={{ duration: 0.5 }}
+            exit="exit"
+            variants={variants}>
+                <div style={titleStyle}>
+                    Settings
+                </div>
+                <div style={soundStyle}>
+                    <div style={subtitleStyle}>
+                        Sound Settings
+                    </div>                
+                    <Setting params="Gilfoyle" alert={handleAlert} sound={handleSound}/>
+                    <Setting params="Chill" alert={handleAlert} sound={handleSound}/>
+                </div>
+                <div style={changeStyle}>
+                    <div style={subtitleStyle}>
+                        Alert Settings
+                    </div>                
+                    <Setting params="Relative" alert={handleAlert} sound={handleSound}/>
+                    <Setting params="Absolute" alert={handleAlert} sound={handleSound}/>
+                </div>
+            </motion.div>
+        </AnimatePresence>
     )
 }
 

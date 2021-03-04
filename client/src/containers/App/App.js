@@ -15,27 +15,30 @@ import { Switch, Route } from "react-router-dom";
 function App() {
   const [crypto, setCrypto] = React.useState();
   const [loaded, setLoaded] = React.useState(true);
-  React.useEffect(() => {  
-    // NomicsAPI.ticker('DOGE').then(response => {
-    //   console.log(response[0])
-    //   console.log('ticker response received')
-    //   setLoaded(true)
-    //   setCrypto(response[0])});
-    // console.log('app')
-  },[0])
+  const [sound, setSound] = React.useState();
+  const [alert, setAlert] = React.useState();
+
+  const soundSetting = (value) => {
+    setSound(value);
+  }
+
+  const alertSetting = (value) => {
+    console.log(`Alert setting: ${value}`)
+    setAlert(value);
+  }
 
   if (loaded) {
     return (
       <div className="App">
         <Switch>
           <Route exact path='/'>
-            <Desktop />
+            <Desktop soundSetting={soundSetting} alertSetting={alertSetting}/>
           </Route>
           <Route exact path='/:crypto'>
-            <Desktop params={false}/>
+            <Desktop params={false} soundSetting={soundSetting} alertSetting={alertSetting}/>
           </Route>
           <Route exact path='/settings'>
-            <Desktop />
+            <Desktop soundSetting={soundSetting} alertSetting={alertSetting}/>
           </Route>
         </Switch>
       </div>

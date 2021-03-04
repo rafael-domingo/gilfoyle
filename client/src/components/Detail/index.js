@@ -7,6 +7,7 @@ import Metadata from '../../elements/Metadata';
 // Packages
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import useSound from 'use-sound';
+import { motion, AnimatePresence } from "framer-motion";
 
 function Detail({graph, metadata, prevMetaData, fetchCrypto, fetchSparklines}) {
     const [data, setData] = React.useState(graph);
@@ -19,6 +20,12 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, fetchSparklines}) {
     //     // Call playsound to initialize, so next time it call
     //     console.log('detail')
     // }, [graph])
+
+    const variants = {
+        initial: { opacity: 0, x: 0},
+        enter: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: '100%', transition: {duration: 1.5}}
+    }
 
     const divStyle = {
         backgroundColor: '#5E29D2',
@@ -48,43 +55,48 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, fetchSparklines}) {
     )
 
     return (
-        <div style={divStyle}>
-            <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button>
-             <div style={{width: '100%', height: '2em', display: 'flex', justifyContent: 'flex-end'}}>
-                    <CountdownCircleTimer
-                    isPlaying
-                    onComplete={() => {
-                        if (sound) {
-                            playSound()
-                        }
-                        
-                        // Fetch data on complete
-                        fetchCrypto()
-                        // setTimeout(() => {
-                        //     fetchSparklines()    
-                        // }, 1000);                        
-                        return [true, 1500]
-                    }}
-                    duration={20}
-                    size={50}
-                    strokeWidth={5}
-                    trailColor={'rgba(0,0,0,0)'}
-                    colors={[
-                    ['#ffffff', 0],
-                    ['#ffffff', 1]
-                    ]}>
-                        {countdown}
-                    </CountdownCircleTimer>
+        <AnimatePresence>
+            <motion.div
+            style={divStyle}
+            initial = "initial"
+            animate="enter"
+            transition={{ duration: 0.5 }}
+            exit="exit"
+            variants={variants}>
+                <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button>
+                <div style={{width: '100%', height: '2em', display: 'flex', justifyContent: 'flex-end'}}>
+                        <CountdownCircleTimer
+                        isPlaying
+                        onComplete={() => {
+                            if (sound) {
+                                playSound()
+                            }
+                            
+                            // Fetch data on complete
+                            fetchCrypto()
+                            // setTimeout(() => {
+                            //     fetchSparklines()    
+                            // }, 1000);                        
+                            return [true, 1500]
+                        }}
+                        duration={20}
+                        size={50}
+                        strokeWidth={5}
+                        trailColor={'rgba(0,0,0,0)'}
+                        colors={[
+                        ['#ffffff', 0],
+                        ['#ffffff', 1]
+                        ]}>
+                            {countdown}
+                        </CountdownCircleTimer>
+                    </div>
+                <Graph data={data}/>
+                <div style={metaDataStyle}>
+                    <p>{metadata.currency}</p>
+                    <Metadata data={metadata}/>
                 </div>
-            <Graph data={data}/>
-            <div style={metaDataStyle}>
-                <p>{metadata.currency}</p>
-                <Metadata data={metadata}/>
-               
-              
-            </div>
-            
-        </div>
+            </motion.div>
+        </AnimatePresence>
     )
 
  

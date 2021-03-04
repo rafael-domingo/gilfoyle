@@ -16,13 +16,21 @@ import Particles from 'react-tsparticles';
 import ReactLoading from 'react-loading'
 import { useParams } from "react-router-dom";
 
-function Desktop({params}) {
+function Desktop({params, alertSetting, soundSetting}) {
     const crypto = useParams().crypto || 'BTC';
     const [height, setHeight] = React.useState(window.innerHeight);
     const [graphData, setGraphData] = React.useState(null);
     const [loaded, setLoaded] = React.useState(params);
     const [metaData, setMetaData] = React.useState(null);
     const [prevMetaData, setPrevMetaData] = React.useState(null);
+
+  const handleAlertSetting = (value) => {
+    return alertSetting(value);
+  }
+
+  const handleSoundSetting = (value) => {
+    return soundSetting(value);
+  }
 
     React.useEffect(() => {
         window.addEventListener('resize', () => setHeight(window.innerHeight));
@@ -42,6 +50,7 @@ function Desktop({params}) {
           fetchSparklines();
           console.log('ticker response received')
         } else {
+          console.log(response)
           return;
         }
       })
@@ -55,6 +64,7 @@ function Desktop({params}) {
           // return;
           setGraphData(sparkResponse[0].prices)
         } else {
+          console.log(sparkResponse)
           return;
         }          
       })}
@@ -104,7 +114,7 @@ function Desktop({params}) {
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <Settings />
+          <Settings alert={handleAlertSetting} sound={handleSoundSetting}/>
         </div>
 
       )
