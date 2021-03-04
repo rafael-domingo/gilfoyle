@@ -3,6 +3,7 @@ import React from 'react';
 
 // Packages
 import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
 
 // Assets 
 import Setting from '../../assets/settings.png';
@@ -13,7 +14,7 @@ function Nav() {
         color: 'white',
         width: '20%',
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         flexWrap: 'wrap',
         alignItems: 'center',
         height: '80%'
@@ -21,7 +22,9 @@ function Nav() {
 
     const listStyle = {
         listStyleType: 'none',
-        width: '100%'
+        width: '100%',
+        margin: '0px',
+        padding: '0px'
     }
 
     const itemStyle = {
@@ -31,14 +34,23 @@ function Nav() {
 
     const linkStyle = {
         textDecoration: 'none',
-        color: 'white'
+        color: 'rgba(216, 216, 216, 1)',
     }
 
     const imgStyle = {
         width: 'auto',
-        height: '5em'
+        height: '5em',
     }
 
+    const motionStyle = {
+        borderRadius: '50px',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center', 
+        textAlign: 'center',
+        color: 'rgba(216, 216, 216, 1)',
+        padding: '30px'
+    }
     const divImgStyle = {
         width: '100%'
     }
@@ -54,7 +66,20 @@ function Nav() {
             <ul style={listStyle}>
                 {
                     list.map(item => {
-                        return <li key={item} style={itemStyle}><Link to={`/${item}`} style={linkStyle}>{item}</Link></li>
+                        return (
+                        <li style={itemStyle}>
+                            <Link to={`/${item}`} style={linkStyle}>
+                                <motion.div
+                                    style={motionStyle}
+                                    whileHover={{
+                                    backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                    color: 'rgba(0,0,0,1)'
+                                }}>
+                                    {item}
+                                </motion.div>
+                            </Link>
+                        </li>
+                        )
                     })
                 }
             </ul>

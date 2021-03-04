@@ -6,6 +6,8 @@ import Title from '../../elements/Title';
 import Nav from '../../components/Nav';
 import Detail from '../../components/Detail';
 import Background from '../../elements/Background';
+import Settings from '../../components/Settings';
+
 // APIs
 import { NomicsAPI } from "../../util/Nomics";
 
@@ -20,6 +22,7 @@ function Desktop({params}) {
     const [graphData, setGraphData] = React.useState(null);
     const [loaded, setLoaded] = React.useState(params);
     const [metaData, setMetaData] = React.useState(null);
+    const [prevMetaData, setPrevMetaData] = React.useState(null);
 
     React.useEffect(() => {
         window.addEventListener('resize', () => setHeight(window.innerHeight));
@@ -32,8 +35,11 @@ function Desktop({params}) {
         setLoaded(true);
     
         if (response) {
+          console.log(metaData);
+          console.log(prevMetaData);
+          setPrevMetaData(metaData);
           setMetaData(response[0]);
-          console.log(response[0])
+          fetchSparklines();
           console.log('ticker response received')
         } else {
           return;
@@ -44,21 +50,23 @@ function Desktop({params}) {
     // Data fetching Sparklines
     const fetchSparklines = () => { 
       NomicsAPI.sparkline(crypto).then(sparkResponse => {  
+        console.log('sparklines');
         if (sparkResponse[0]) {
+          // return;
           setGraphData(sparkResponse[0].prices)
         } else {
           return;
         }          
-        console.log(sparkResponse)});
-    }     
+      })}
+         
 
     // Initial data fetch before countdown starts
     React.useEffect(() => {
       setLoaded(false);
       fetchCrypto();
-      setTimeout(() => {
-        fetchSparklines();
-      }, 1000)
+      // setTimeout(() => {
+      //   fetchSparklines();
+      // }, 1000)
       
     }, [crypto])
 
@@ -87,7 +95,7 @@ function Desktop({params}) {
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <Detail style={DetailStyle} graph={graphData} metadata={metaData} fetchCrypto={fetchCrypto} fetchSparklines={fetchSparklines}/>
+          <Detail style={DetailStyle} graph={graphData} metadata={metaData} prevMetaData={prevMetaData} fetchCrypto={fetchCrypto} fetchSparklines={fetchSparklines}/>
         </div>
     )
     }  else if (crypto === 'settings') {
@@ -96,6 +104,7 @@ function Desktop({params}) {
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
+          <Settings />
         </div>
 
       )

@@ -8,15 +8,17 @@ import Metadata from '../../elements/Metadata';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import useSound from 'use-sound';
 
-function Detail({graph, metadata, fetchCrypto, fetchSparklines}) {
-    const [data, setData] = React.useState();
+function Detail({graph, metadata, prevMetaData, fetchCrypto, fetchSparklines}) {
+    const [data, setData] = React.useState(graph);
     const [sound, setSound] = React.useState(false);
-
-    React.useEffect(() => {
-        setData(graph);
-        // Call playsound to initialize, so next time it call
-        console.log('detail')
-    }, [graph])
+    console.log(metadata);
+    console.log(prevMetaData);
+    console.log(graph);
+    // React.useEffect(() => {
+    //     setData(graph);
+    //     // Call playsound to initialize, so next time it call
+    //     console.log('detail')
+    // }, [graph])
 
     const divStyle = {
         backgroundColor: '#5E29D2',
@@ -58,9 +60,9 @@ function Detail({graph, metadata, fetchCrypto, fetchSparklines}) {
                         
                         // Fetch data on complete
                         fetchCrypto()
-                        setTimeout(() => {
-                            fetchSparklines()    
-                        }, 1000);                        
+                        // setTimeout(() => {
+                        //     fetchSparklines()    
+                        // }, 1000);                        
                         return [true, 1500]
                     }}
                     duration={20}
@@ -76,6 +78,7 @@ function Detail({graph, metadata, fetchCrypto, fetchSparklines}) {
                 </div>
             <Graph data={data}/>
             <div style={metaDataStyle}>
+                <p>{metadata.currency}</p>
                 <Metadata data={metadata}/>
                
               
