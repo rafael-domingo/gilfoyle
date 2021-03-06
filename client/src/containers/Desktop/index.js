@@ -47,7 +47,9 @@ function Desktop({params, alertSetting, soundSetting}) {
           console.log(prevMetaData);
           setPrevMetaData(metaData);
           setMetaData(response[0]);
-          fetchSparklines();
+          setTimeout(() => {
+            fetchSparklines()
+          }, 1000);          
           console.log('ticker response received')
         } else {
           console.log(response)
@@ -99,13 +101,13 @@ function Desktop({params, alertSetting, soundSetting}) {
         width: '50%'
     }
 
-    if (loaded && graphData && metaData) {
+    if (graphData && metaData) {
       return (
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <Detail style={DetailStyle} graph={graphData} metadata={metaData} prevMetaData={prevMetaData} fetchCrypto={fetchCrypto} fetchSparklines={fetchSparklines}/>
+          <Detail style={DetailStyle} graph={graphData} metadata={metaData} prevMetaData={prevMetaData} fetchCrypto={fetchCrypto} />
         </div>
     )
     }  else if (crypto === 'settings') {
@@ -118,14 +120,14 @@ function Desktop({params, alertSetting, soundSetting}) {
         </div>
 
       )
-    } else {
+    } 
+    else {
       return (
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
           <Nav style={NavStyle}/>
-          <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
-          
+          <Detail loading={loaded} />          
         </div>
        
       )
