@@ -30,9 +30,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
 
     const priceChange = currentPrice - prevPrice;
     const pricechangeFormat = value => `Price change: $ ${value.toFixed(2)}`
-
-    console.log(`Metadata sound state: ${sound}`);
-
+    
     React.useEffect(() => {
         console.log('price change')
         if (cramer) {
@@ -42,7 +40,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 playBuy();
             }
         } else if (gilfoyle) {
-            if (priceChange < 0) {
+            if (priceChange < 0 || priceChange > 0) {
                 playGilfoyle();
             }
         }

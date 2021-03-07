@@ -19,7 +19,19 @@ function App() {
   const [sound, setSound] = React.useState(false);
   const [cramer, setCramer] = React.useState(false);
   const [gilfoyle, setGilfoyle] = React.useState(false);
-
+  const [mobile, setMobile] = React.useState(false);
+ 
+  React.useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1000) {
+        setMobile(true)
+      } else {
+        setMobile(false)
+      }      
+    });
+    
+    console.log(mobile);
+  }, [mobile])
 
   React.useEffect(() => {
     console.log(`App sound`)
@@ -35,14 +47,14 @@ function App() {
     console.log(`cramer setting: ${value}`)
 
     setCramer(value);
-    setGilfoyle(!gilfoyle);
+    setGilfoyle(false);
   }
 
   const gilfoyleSetting = (value) => {
     console.log(`gilfoyle setting: ${value}`)
 
     setGilfoyle(value);
-    setCramer(!cramer);
+    setCramer(false);
   }
 
 
@@ -73,7 +85,7 @@ function App() {
         volume: 1
     }
   )
-  if (loaded) {
+  if (loaded && !mobile) {
     return (
       <div className="App">
         <Switch>

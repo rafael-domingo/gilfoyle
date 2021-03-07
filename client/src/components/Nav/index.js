@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import Switch from 'react-switch';
 
 // Assets 
-import Setting from '../../assets/settings.png';
 
 function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting}) {
    const [checked, setChecked] = React.useState(false);
@@ -53,8 +52,16 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
         color: 'rgba(216, 216, 216, 1)',
         padding: '30px'
     }
-    const divImgStyle = {
-        width: '100%'
+    const labelStyle = {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+    }
+
+    const spanStyle = {
+        margin: '10px'
     }
 
     const list = [
@@ -77,7 +84,7 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
                 {
                     list.map(item => {
                         return (
-                        <li style={itemStyle}>
+                        <li style={itemStyle} key={item}>
                             <Link to={`/${item}`} style={linkStyle}>
                                 <motion.div
                                     style={motionStyle}
@@ -93,10 +100,10 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
                     })
                 }
             </ul>
-            <label>
-            <span>Gilfoyle Mode</span>
+            <label style={labelStyle}>
+            <span style={spanStyle}>Gilfoyle Mode</span>
                 <Switch
-                checked={gilfoyle}
+                checked={gilfoyle || false}
                 onChange={(checked) => handleGilfoyleChange(checked)}
                 onColor="#86d3ff"
                 onHandleColor="#2693e6"
@@ -111,10 +118,10 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
                 // id="material-switch"
                 />    
             </label>
-            <label>
-            <span>Cramer Mode</span>
+            <label style={labelStyle}>
+            <span style={spanStyle}>Cramer Mode</span>
                 <Switch
-                checked={cramer}
+                checked={cramer || false}
                 onChange={(checked) => handleCramerChange(checked)}
                 onColor="#86d3ff"
                 onHandleColor="#2693e6"
@@ -129,12 +136,7 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
                 // id="material-switch"
                 />    
             </label>
-         
-            <div style={divImgStyle}>
-                <Link to={`/settings`}>
-                    <img style={imgStyle} src={Setting} />
-                </Link>
-            </div>
+
         </div>
     )
 }
