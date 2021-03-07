@@ -12,11 +12,9 @@ import Settings from '../../components/Settings';
 import { NomicsAPI } from "../../util/Nomics";
 
 // Packages
-import Particles from 'react-tsparticles';
-import ReactLoading from 'react-loading'
 import { useParams } from "react-router-dom";
 
-function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle}) {
+function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
     const crypto = useParams().crypto || 'BTC';
     const [height, setHeight] = React.useState(window.innerHeight);
     const [graphData, setGraphData] = React.useState(null);
@@ -24,14 +22,19 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
     const [metaData, setMetaData] = React.useState({price: 0});
     const [prevMetaData, setPrevMetaData] = React.useState(null);
 
-  const handleSoundSetting = (value) => {
-    return soundSetting(value);
-  }
-
+    // useEffect Hooks
     React.useEffect(() => {
         window.addEventListener('resize', () => setHeight(window.innerHeight));
         console.log(height);
     }, [height])
+
+    // Initial data fetch before countdown starts
+    React.useEffect(() => {
+      console.log('useeffect')
+      setLoaded(false);
+      console.log(`useEffect crypto: ${crypto}`);
+      fetchCrypto(); 
+    }, [crypto])
 
     // Data fetching Crypto
     const fetchCrypto = () => {
@@ -65,20 +68,12 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
           return;
         }          
       })}
-         
+  
 
-    // Initial data fetch before countdown starts
-    React.useEffect(() => {
-      console.log('useeffect')
-      setLoaded(false);
-      console.log(`useEffect crypto: ${crypto}`);
-      fetchCrypto(); 
-      
-    }, [useParams().crypto])
+    const handleSoundSetting = (value) => {
+      return soundSetting(value);
+    }
 
-    React.useState(() => {
-      console.log(`sound: ${sound}`)
-    }, [sound])
 
     const DivStyle = {
         height: height,
@@ -86,6 +81,13 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexWrap: 'wrap'
+    }
+
+    const mobileDivStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexWrap: 'wrap'
     }
     const TitleStyle = {
         // minHeight: (height * 0.2)
@@ -99,11 +101,17 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
         width: '50%'
     }
 
-    if (loaded && graphData && metaData) {
+    const mobileDetailStyle = {
+      width: '80%'
+    }
+
+    if (!mobile && loaded && graphData && metaData) {
       return (
         <div style={DivStyle}>
           <Background />
-          <Title style={TitleStyle}/>
+          <Title 
+            style={TitleStyle}
+            mobile={mobile} />
           <Nav 
             style={NavStyle} 
             soundSetting={handleSoundSetting} 
@@ -112,7 +120,8 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
             cramerSetting={cramerSetting}
             gilfoyleSetting={gilfoyleSetting}
             crypto={crypto}
-            sound={sound} />
+            sound={sound}
+            mobile={mobile} />
           <Detail 
             style={DetailStyle} 
             graph={graphData} 
@@ -128,35 +137,77 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
             gilfoyleSetting={gilfoyleSetting}
             playBuy={playBuy}
             playSell={playSell}
-            playGilfoyle={playGilfoyle}/>
+            playGilfoyle={playGilfoyle}
+            mobile={mobile}/>
         </div>
-    )
-    }  else if (crypto === 'settings') {
+    ) 
+    } else if (mobile && loaded && graphData && metaData) {
       return (
-        <div style={DivStyle}>
-          <Background />
-          <Title style={TitleStyle}/>
-          <Nav 
-            style={NavStyle} 
-            soundSetting={handleSoundSetting} 
-            sound={sound} />
-          <Settings 
-            sound={handleSoundSetting}/>
-        </div>
-
+        <div style={mobileDivStyle}>
+        <Background />
+        <Title 
+          style={TitleStyle}
+          mobile={mobile}/>
+        <Nav 
+          style={NavStyle} 
+          soundSetting={handleSoundSetting} 
+          cramer={cramer}
+          gilfoyle={gilfoyle}
+          cramerSetting={cramerSetting}
+          gilfoyleSetting={gilfoyleSetting}
+          crypto={crypto}
+          sound={sound}
+          mobile={mobile} />
+        <Detail 
+          style={mobileDetailStyle} 
+          graph={graphData} 
+          metadata={metaData} 
+          prevMetaData={prevMetaData} 
+          fetchCrypto={fetchCrypto} 
+          crypto={crypto} 
+          playSound={playSound} 
+          sound={sound}
+          cramer={cramer}
+          gilfoyle={gilfoyle}
+          cramerSetting={cramerSetting}
+          gilfoyleSetting={gilfoyleSetting}
+          playBuy={playBuy}
+          playSell={playSell}
+          playGilfoyle={playGilfoyle}
+          mobile={mobile}/>
+      </div>
       )
-    } 
-    else {
+    } else if (mobile) {
       return (
-        <div style={DivStyle}>
+        <div style={mobileDivStyle}>
           <Background />
-          <Title style={TitleStyle}/>
+          <Title style={TitleStyle} mobile={mobile}/>
           <Nav 
             style={NavStyle} 
             soundSetting={handleSoundSetting} 
             sound={sound}
-            crypto={crypto}/>
-          <Detail loading={loaded} />          
+            crypto={crypto}
+            mobile={mobile}/>
+          <Detail 
+            loading={loaded}
+            mobile={mobile}/>          
+        </div>
+       
+      )
+    } else {
+      return (
+        <div style={DivStyle}>
+          <Background />
+          <Title style={TitleStyle} mobile={mobile}/>
+          <Nav 
+            style={NavStyle} 
+            soundSetting={handleSoundSetting} 
+            sound={sound}
+            crypto={crypto}
+            mobile={mobile}/>
+          <Detail 
+            loading={loaded}
+            mobile={mobile}/>          
         </div>
        
       )

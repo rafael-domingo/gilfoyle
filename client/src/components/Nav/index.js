@@ -8,8 +8,7 @@ import Switch from 'react-switch';
 
 // Assets 
 
-function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, crypto}) {
-   const [checked, setChecked] = React.useState(false);
+function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, crypto, mobile}) {
     const [selected, setSelected] = React.useState();
 
     React.useEffect(() => {
@@ -26,6 +25,16 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
         height: '80%'
     }
 
+    const mobileDivStyle = {
+        color: 'white',
+        width: '80%',
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+    }
+
+
     const listStyle = {
         listStyleType: 'none',
         width: '100%',
@@ -40,9 +49,21 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
         
     }
 
+    const mobileItemStyle = {
+        margin: '1em',
+        fontSize: '1em'
+    }
+
     const selectedItemStyle = {
         margin: '1.5em',
         fontSize: '3em',
+        backgroundColor: 'rgba(94, 41, 210, 1)',
+        borderRadius: '50px'
+    }
+
+    const mobileSelectedItemStyle = {
+        margin: '1em',
+        fontSize: '1em',
         backgroundColor: 'rgba(94, 41, 210, 1)',
         borderRadius: '50px'
     }
@@ -76,7 +97,9 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
     const list = [
         'BTC',
         'ETH',
-        'DOGE'
+        'DOGE',
+        'BNB',
+        'BCH'
     ]
 
     const handleCramerChange = (checked) => {
@@ -87,88 +110,134 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
         return gilfoyleSetting(checked);
     }
 
+    if (mobile) {
+        return (
+            <div style={mobileDivStyle}>
+                <ul style={listStyle}>
+                    {
+                        list.map(item => {
+                            if (selected === item) {
+                                return (
+                                    <li key={item} style={mobileSelectedItemStyle}>
+                                        <Link to={`/${item}`} style={linkStyle}>
+                                            <motion.div
+                                                style={motionStyle}
+                                                whileHover={{
+                                                backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                                color: 'rgba(0,0,0,1)'
+                                            }}
+                                            >
+                                                {item}
+                                            </motion.div>
+                                        </Link>
+                                    </li>
+                                    )
+                            } else {
+                                return (
+                                    <li style={mobileItemStyle} key={item}>
+                                        <Link to={`/${item}`} style={linkStyle}>
+                                            <motion.div
+                                                style={motionStyle}
+                                                whileHover={{
+                                                backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                                color: 'rgba(0,0,0,1)'
+                                            }}
+                                            >
+                                                {item}
+                                            </motion.div>
+                                        </Link>
+                                    </li>
+                                    )
+                            }
+                         
+                        })
+                    }
+                </ul>    
+            </div>
+        )
+    } else {
+        return (
+            <div style={divStyle}>
+                <ul style={listStyle}>
+                    {
+                        list.map(item => {
+                            if (selected === item) {
+                                return (
+                                    <li key={item} style={selectedItemStyle}>
+                                        <Link to={`/${item}`} style={linkStyle}>
+                                            <motion.div
+                                                style={motionStyle}
+                                                whileHover={{
+                                                backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                                color: 'rgba(0,0,0,1)'
+                                            }}
+                                            >
+                                                {item}
+                                            </motion.div>
+                                        </Link>
+                                    </li>
+                                    )
+                            } else {
+                                return (
+                                    <li style={itemStyle} key={item}>
+                                        <Link to={`/${item}`} style={linkStyle}>
+                                            <motion.div
+                                                style={motionStyle}
+                                                whileHover={{
+                                                backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                                color: 'rgba(0,0,0,1)'
+                                            }}
+                                            >
+                                                {item}
+                                            </motion.div>
+                                        </Link>
+                                    </li>
+                                    )
+                            }
+                         
+                        })
+                    }
+                </ul>
+                <label style={labelStyle}>
+                <span style={spanStyle}>Gilfoyle Mode</span>
+                    <Switch
+                    checked={gilfoyle || false}
+                    onChange={(checked) => handleGilfoyleChange(checked)}
+                    onColor="#86d3ff"
+                    onHandleColor="#2693e6"
+                    handleDiameter={30}
+                    uncheckedIcon={false}
+                    checkedIcon={false}
+                    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                    // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                    height={20}
+                    width={48}
+                    // className="react-switch"
+                    // id="material-switch"
+                    />    
+                </label>
+                <label style={labelStyle}>
+                <span style={spanStyle}>Cramer Mode</span>
+                    <Switch
+                    checked={cramer || false}
+                    onChange={(checked) => handleCramerChange(checked)}
+                    onColor="#86d3ff"
+                    onHandleColor="#2693e6"
+                    handleDiameter={30}
+                    uncheckedIcon={false}
+                    checkedIcon={false}
+                    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                    // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                    height={20}
+                    width={48}
+                    // className="react-switch"
+                    // id="material-switch"
+                    />    
+                </label>
     
-    return (
-        <div style={divStyle}>
-            <ul style={listStyle}>
-                {
-                    list.map(item => {
-                        if (selected === item) {
-                            return (
-                                <li style={itemStyle} key={item} style={selectedItemStyle}>
-                                    <Link to={`/${item}`} style={linkStyle}>
-                                        <motion.div
-                                            style={motionStyle}
-                                            whileHover={{
-                                            backgroundColor: 'rgba(216, 216, 216, 0.8)',
-                                            color: 'rgba(0,0,0,1)'
-                                        }}
-                                        >
-                                            {item}
-                                        </motion.div>
-                                    </Link>
-                                </li>
-                                )
-                        } else {
-                            return (
-                                <li style={itemStyle} key={item}>
-                                    <Link to={`/${item}`} style={linkStyle}>
-                                        <motion.div
-                                            style={motionStyle}
-                                            whileHover={{
-                                            backgroundColor: 'rgba(216, 216, 216, 0.8)',
-                                            color: 'rgba(0,0,0,1)'
-                                        }}
-                                        >
-                                            {item}
-                                        </motion.div>
-                                    </Link>
-                                </li>
-                                )
-                        }
-                     
-                    })
-                }
-            </ul>
-            <label style={labelStyle}>
-            <span style={spanStyle}>Gilfoyle Mode</span>
-                <Switch
-                checked={gilfoyle || false}
-                onChange={(checked) => handleGilfoyleChange(checked)}
-                onColor="#86d3ff"
-                onHandleColor="#2693e6"
-                handleDiameter={30}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                height={20}
-                width={48}
-                // className="react-switch"
-                // id="material-switch"
-                />    
-            </label>
-            <label style={labelStyle}>
-            <span style={spanStyle}>Cramer Mode</span>
-                <Switch
-                checked={cramer || false}
-                onChange={(checked) => handleCramerChange(checked)}
-                onColor="#86d3ff"
-                onHandleColor="#2693e6"
-                handleDiameter={30}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                height={20}
-                width={48}
-                // className="react-switch"
-                // id="material-switch"
-                />    
-            </label>
-
-        </div>
-    )
+            </div>
+        )
+    }
 }
 
 export default Nav;

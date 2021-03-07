@@ -6,7 +6,6 @@ import Desktop from '../Desktop';
 import Mobile from '../Mobile';
 
 // APIs
-import { NomicsAPI } from '../../util/Nomics';
 
 // Packages
 import ReactLoading from 'react-loading';
@@ -14,8 +13,6 @@ import { Switch, Route } from "react-router-dom";
 import useSound from 'use-sound';
 
 function App() {
-  const [crypto, setCrypto] = React.useState();
-  const [loaded, setLoaded] = React.useState(true);
   const [sound, setSound] = React.useState(false);
   const [cramer, setCramer] = React.useState(false);
   const [gilfoyle, setGilfoyle] = React.useState(false);
@@ -23,13 +20,12 @@ function App() {
  
   React.useEffect(() => {
     window.addEventListener('resize', () => {
-      if (window.innerWidth < 1000) {
+      if (window.innerWidth < 1500) {
         setMobile(true)
       } else {
         setMobile(false)
       }      
-    });
-    
+    });    
     console.log(mobile);
   }, [mobile])
 
@@ -85,7 +81,7 @@ function App() {
         volume: 1
     }
   )
-  if (loaded && !mobile) {
+  // if (!mobile) {
     return (
       <div className="App">
         <Switch>
@@ -100,7 +96,8 @@ function App() {
               gilfoyleSetting={gilfoyleSetting}
               playBuy={playBuy}
               playSell={playSell}
-              playGilfoyle={playGilfoyle}/>
+              playGilfoyle={playGilfoyle}
+              mobile={mobile}/>
           </Route>
           <Route exact path='/:crypto'>
             <Desktop 
@@ -114,7 +111,8 @@ function App() {
               gilfoyleSetting={gilfoyleSetting}
               playBuy={playBuy}
               playSell={playSell}
-              playGilfoyle={playGilfoyle}/>
+              playGilfoyle={playGilfoyle}
+              mobile={mobile}/>
           </Route>
           <Route exact path='/settings'>
             <Desktop 
@@ -132,14 +130,14 @@ function App() {
         </Switch>
       </div>
     );
-  } else {
-    return (
-      <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
-      </div>
-    )
+  // } else {
+  //   return (
+  //     <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+  //     <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
+  //     </div>
+  //   )
   
-  }
+  // }
 
 
 }

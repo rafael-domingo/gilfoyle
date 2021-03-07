@@ -1,6 +1,8 @@
+import React from 'react';
 import './Title.css';
 
-function Title() {
+function Title({mobile}) {
+
     const divStyle={
         color: 'white',
         display: 'flex',
@@ -13,8 +15,24 @@ function Title() {
         width: '100%'
     }
 
+    const mobileDivStyle = {
+        color: 'white',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        textAlign: 'center',
+        padding: '5em',
+        width: '100%'
+    }
     const h1Style = {
         fontSize: '4em',
+        width: '100%',
+        fontWeight: '100'
+    }
+
+    const mobileh1Style = {
+        fontSize: '2em',
         width: '100%',
         fontWeight: '100'
     }
@@ -23,13 +41,28 @@ function Title() {
         fontSize: '2em',
         width: '100%'
     }
+
+    const mobileSpanStyle = {
+        fontSize: '1em',
+        width: '100%'
+    }
     
-    return (
-        <div style={divStyle}>
-            <h1 style={h1Style}>gilfoyle</h1>
-            <span style={spanStyle}>Crypto Tracker</span>
-        </div>
-    )
-}
+    if (mobile) {
+        return (
+            <div style={mobileDivStyle}>
+                <h1 style={mobileh1Style}>gilfoyle</h1>
+                <span style={mobileSpanStyle}>Crypto Tracker</span>
+            </div>
+        )
+    } else {
+        return (
+            <div style={divStyle}>
+                <h1 style={h1Style}>gilfoyle</h1>
+                <span style={spanStyle}>Crypto Tracker</span>
+            </div>
+        )
+    }
+    }
+
 
 export default Title;
