@@ -17,19 +17,32 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
         height: '50%'
     }
 
-    const animatedStyle = {
+    const titleStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
-        fontSize: '3em'
+        
+    }
+
+    const logoStyle = {
+        height: '3em',
+        width: 'auto',
+        margin: '20px'
+    }
+
+    const animatedStyle = {
+        width: '33%',
     }
     const currentPrice = Math.ceil(data.price*100)/100;
-    const currentPriceFormat = value => `Current Price: $ ${value.toFixed(2)}`;
+    const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
 
     
     const prevPrice = Math.ceil(data.price*100/100);
-    const prevPriceFormat = value => `Previous Price: $ ${value.toFixed(2)}`;
+    const prevPriceFormat = value => `$ ${value.toFixed(2)}`;
 
     const priceChange = currentPrice - prevPrice;
-    const pricechangeFormat = value => `Price change: $ ${value.toFixed(2)}`
+    const pricechangeFormat = value => `$ ${value.toFixed(2)}`
     
     React.useEffect(() => {
         console.log('price change')
@@ -50,21 +63,36 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
     return (
 
         <div style={divStyle}>
-             <AnimatedNumber
+            <div style={titleStyle}>
+                <img style={logoStyle} src={data.logo_url} />
+                <h1>{data.currency}</h1>
+            </div>
+            
+            <div style={animatedStyle}>
+            <AnimatedNumber
                 value={currentPrice}
                 formatValue={currentPriceFormat}
                 duration={1500}
                 />
-             <AnimatedNumber
-                value={priceChange}
-                formatValue={pricechangeFormat}
-                duration={1500}
-                />
-            <AnimatedNumber
-                value={prevPrice}
-                formatValue={prevPriceFormat}
-                duration={1500}
-                />
+                <p>Current Price</p>
+            </div>
+            <div style={animatedStyle}>
+                <AnimatedNumber
+                    value={priceChange}
+                    formatValue={pricechangeFormat}
+                    duration={1500}
+                    />
+                <p>Price Change</p>
+            </div>
+            <div style={animatedStyle}>
+                <AnimatedNumber
+                    value={prevPrice}
+                    formatValue={prevPriceFormat}
+                    duration={1500}
+                    />
+                <p>Previous Price</p>
+            </div>
+           
         </div>
 
     )

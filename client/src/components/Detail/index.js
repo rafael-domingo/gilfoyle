@@ -100,7 +100,6 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, pl
                         </div>
                     <Graph data={graphData}/>
                     <div style={metaDataStyle}>
-                        <p>{data.currency}</p>
                         <Metadata 
                             data={data} 
                             prevdata={prevMetaData} 

@@ -8,9 +8,14 @@ import Switch from 'react-switch';
 
 // Assets 
 
-function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting}) {
+function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, crypto}) {
    const [checked, setChecked] = React.useState(false);
+    const [selected, setSelected] = React.useState();
 
+    React.useEffect(() => {
+        setSelected(crypto)
+    }, [crypto])
+    
     const divStyle = {
         color: 'white',
         width: '20%',
@@ -30,17 +35,21 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
 
     const itemStyle = {
         margin: '1.5em',
-        fontSize: '3em'
+        fontSize: '3em',
+        borderRadius: '50px'
+        
+    }
+
+    const selectedItemStyle = {
+        margin: '1.5em',
+        fontSize: '3em',
+        backgroundColor: 'rgba(94, 41, 210, 1)',
+        borderRadius: '50px'
     }
 
     const linkStyle = {
         textDecoration: 'none',
         color: 'rgba(216, 216, 216, 1)',
-    }
-
-    const imgStyle = {
-        width: 'auto',
-        height: '5em',
     }
 
     const motionStyle = {
@@ -50,8 +59,8 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
         justifyContent: 'center', 
         textAlign: 'center',
         color: 'rgba(216, 216, 216, 1)',
-        padding: '30px'
     }
+    
     const labelStyle = {
         width: '100%',
         display: 'flex',
@@ -77,26 +86,47 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
     const handleGilfoyleChange = (checked) => {
         return gilfoyleSetting(checked);
     }
- 
+
+    
     return (
         <div style={divStyle}>
             <ul style={listStyle}>
                 {
                     list.map(item => {
-                        return (
-                        <li style={itemStyle} key={item}>
-                            <Link to={`/${item}`} style={linkStyle}>
-                                <motion.div
-                                    style={motionStyle}
-                                    whileHover={{
-                                    backgroundColor: 'rgba(216, 216, 216, 0.8)',
-                                    color: 'rgba(0,0,0,1)'
-                                }}>
-                                    {item}
-                                </motion.div>
-                            </Link>
-                        </li>
-                        )
+                        if (selected === item) {
+                            return (
+                                <li style={itemStyle} key={item} style={selectedItemStyle}>
+                                    <Link to={`/${item}`} style={linkStyle}>
+                                        <motion.div
+                                            style={motionStyle}
+                                            whileHover={{
+                                            backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                            color: 'rgba(0,0,0,1)'
+                                        }}
+                                        >
+                                            {item}
+                                        </motion.div>
+                                    </Link>
+                                </li>
+                                )
+                        } else {
+                            return (
+                                <li style={itemStyle} key={item}>
+                                    <Link to={`/${item}`} style={linkStyle}>
+                                        <motion.div
+                                            style={motionStyle}
+                                            whileHover={{
+                                            backgroundColor: 'rgba(216, 216, 216, 0.8)',
+                                            color: 'rgba(0,0,0,1)'
+                                        }}
+                                        >
+                                            {item}
+                                        </motion.div>
+                                    </Link>
+                                </li>
+                                )
+                        }
+                     
                     })
                 }
             </ul>

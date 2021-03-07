@@ -111,6 +111,7 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
             gilfoyle={gilfoyle}
             cramerSetting={cramerSetting}
             gilfoyleSetting={gilfoyleSetting}
+            crypto={crypto}
             sound={sound} />
           <Detail 
             style={DetailStyle} 
@@ -153,7 +154,8 @@ function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cram
           <Nav 
             style={NavStyle} 
             soundSetting={handleSoundSetting} 
-            sound={sound}/>
+            sound={sound}
+            crypto={crypto}/>
           <Detail loading={loaded} />          
         </div>
        
