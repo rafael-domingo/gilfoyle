@@ -16,17 +16,13 @@ import Particles from 'react-tsparticles';
 import ReactLoading from 'react-loading'
 import { useParams } from "react-router-dom";
 
-function Desktop({params, alertSetting, soundSetting}) {
+function Desktop({params, soundSetting, sound, playSound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle}) {
     const crypto = useParams().crypto || 'BTC';
     const [height, setHeight] = React.useState(window.innerHeight);
     const [graphData, setGraphData] = React.useState(null);
     const [loaded, setLoaded] = React.useState(params);
-    const [metaData, setMetaData] = React.useState(null);
+    const [metaData, setMetaData] = React.useState({price: 0});
     const [prevMetaData, setPrevMetaData] = React.useState(null);
-
-  const handleAlertSetting = (value) => {
-    return alertSetting(value);
-  }
 
   const handleSoundSetting = (value) => {
     return soundSetting(value);
@@ -39,18 +35,18 @@ function Desktop({params, alertSetting, soundSetting}) {
 
     // Data fetching Crypto
     const fetchCrypto = () => {
+
       NomicsAPI.ticker(crypto).then(response => {
         setLoaded(true);
-    
         if (response) {
-          console.log(metaData);
-          console.log(prevMetaData);
+            console.log(`const crypto: ${crypto}`);
           setPrevMetaData(metaData);
           setMetaData(response[0]);
+          // console.log(`Desktop previous: ${prevMetaData.price}`);
+          // console.log(`Desktop current: ${metaData.price}`);
           setTimeout(() => {
             fetchSparklines()
           }, 1000);          
-          console.log('ticker response received')
         } else {
           console.log(response)
           return;
@@ -61,7 +57,6 @@ function Desktop({params, alertSetting, soundSetting}) {
     // Data fetching Sparklines
     const fetchSparklines = () => { 
       NomicsAPI.sparkline(crypto).then(sparkResponse => {  
-        console.log('sparklines');
         if (sparkResponse[0]) {
           // return;
           setGraphData(sparkResponse[0].prices)
@@ -74,13 +69,16 @@ function Desktop({params, alertSetting, soundSetting}) {
 
     // Initial data fetch before countdown starts
     React.useEffect(() => {
+      console.log('useeffect')
       setLoaded(false);
-      fetchCrypto();
-      // setTimeout(() => {
-      //   fetchSparklines();
-      // }, 1000)
+      console.log(`useEffect crypto: ${crypto}`);
+      fetchCrypto(); 
       
-    }, [crypto])
+    }, [useParams().crypto])
+
+    React.useState(() => {
+      console.log(`sound: ${sound}`)
+    }, [sound])
 
     const DivStyle = {
         height: height,
@@ -101,13 +99,35 @@ function Desktop({params, alertSetting, soundSetting}) {
         width: '50%'
     }
 
-    if (graphData && metaData) {
+    if (loaded && graphData && metaData) {
       return (
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
-          <Nav style={NavStyle}/>
-          <Detail style={DetailStyle} graph={graphData} metadata={metaData} prevMetaData={prevMetaData} fetchCrypto={fetchCrypto} />
+          <Nav 
+            style={NavStyle} 
+            soundSetting={handleSoundSetting} 
+            cramer={cramer}
+            gilfoyle={gilfoyle}
+            cramerSetting={cramerSetting}
+            gilfoyleSetting={gilfoyleSetting}
+            sound={sound} />
+          <Detail 
+            style={DetailStyle} 
+            graph={graphData} 
+            metadata={metaData} 
+            prevMetaData={prevMetaData} 
+            fetchCrypto={fetchCrypto} 
+            crypto={crypto} 
+            playSound={playSound} 
+            sound={sound}
+            cramer={cramer}
+            gilfoyle={gilfoyle}
+            cramerSetting={cramerSetting}
+            gilfoyleSetting={gilfoyleSetting}
+            playBuy={playBuy}
+            playSell={playSell}
+            playGilfoyle={playGilfoyle}/>
         </div>
     )
     }  else if (crypto === 'settings') {
@@ -115,8 +135,12 @@ function Desktop({params, alertSetting, soundSetting}) {
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
-          <Nav style={NavStyle}/>
-          <Settings alert={handleAlertSetting} sound={handleSoundSetting}/>
+          <Nav 
+            style={NavStyle} 
+            soundSetting={handleSoundSetting} 
+            sound={sound} />
+          <Settings 
+            sound={handleSoundSetting}/>
         </div>
 
       )
@@ -126,7 +150,10 @@ function Desktop({params, alertSetting, soundSetting}) {
         <div style={DivStyle}>
           <Background />
           <Title style={TitleStyle}/>
-          <Nav style={NavStyle}/>
+          <Nav 
+            style={NavStyle} 
+            soundSetting={handleSoundSetting} 
+            sound={sound}/>
           <Detail loading={loaded} />          
         </div>
        

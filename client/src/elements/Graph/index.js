@@ -5,7 +5,6 @@ function Graph({data}) {
 
     React.useEffect(() => {
         setGraphData(data)
-        console.log('graph')
     }, [data]);
 
     return (

@@ -4,7 +4,8 @@ import React from 'react';
 // Packages
 import AnimatedNumber from 'animated-number-react';
 
-function Metadata({data}) {
+function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle}) {
+    
     const divStyle = {
         color: 'white',
         fontSize: '2em',
@@ -21,10 +22,32 @@ function Metadata({data}) {
         fontSize: '3em'
     }
     const currentPrice = Math.ceil(data.price*100)/100;
-    const currentPriceFormat = value => `Current Price: ${value.toFixed(2)}`;
+    const currentPriceFormat = value => `Current Price: $ ${value.toFixed(2)}`;
 
-    const priceChange = Math.ceil(data["1d"].price_change*100)/100;
-    const pricechangeFormat = value => `1 day price change: $ ${value.toFixed(2)}`
+    
+    const prevPrice = Math.ceil(data.price*100/100);
+    const prevPriceFormat = value => `Previous Price: $ ${value.toFixed(2)}`;
+
+    const priceChange = currentPrice - prevPrice;
+    const pricechangeFormat = value => `Price change: $ ${value.toFixed(2)}`
+
+    console.log(`Metadata sound state: ${sound}`);
+
+    React.useEffect(() => {
+        console.log('price change')
+        if (cramer) {
+            if (priceChange < 0) {
+                playSell();
+            } else if (priceChange > 0) {
+                playBuy();
+            }
+        } else if (gilfoyle) {
+            if (priceChange < 0) {
+                playGilfoyle();
+            }
+        }
+    }, [priceChange])
+   
 
     return (
 
@@ -37,6 +60,11 @@ function Metadata({data}) {
              <AnimatedNumber
                 value={priceChange}
                 formatValue={pricechangeFormat}
+                duration={1500}
+                />
+            <AnimatedNumber
+                value={prevPrice}
+                formatValue={prevPriceFormat}
                 duration={1500}
                 />
         </div>

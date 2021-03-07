@@ -10,18 +10,18 @@ import useSound from 'use-sound';
 import { motion, AnimatePresence } from "framer-motion";
 import ReactLoading from 'react-loading';
 
-function Detail({graph, metadata, prevMetaData, fetchCrypto, loading}) {
-    const [data, setData] = React.useState(graph);
-    const [sound, setSound] = React.useState(false);
-    console.log(metadata);
-    console.log(prevMetaData);
-    console.log(graph);
+function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, playSound, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle}) {
+    const [graphData, setGraphData] = React.useState(graph);
+    // const [sound, setSound] = React.useState(false);
+    const [data, setData] = React.useState(metadata);
+    const [coin, setCoin] = React.useState(crypto);
     React.useEffect(() => {
-        setData(graph);
-        // Call playsound to initialize, so next time it call
-        console.log('detail')
-    }, [graph])
+        setGraphData(graph);
+        setData(metadata);
+        setCoin(crypto);
 
+        // Call playsound to initialize, so next time it call
+    }, [graph])
     const variants = {
         initial: { opacity: 0, x: 0},
         enter: { opacity: 1, x: 0 },
@@ -60,13 +60,13 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading}) {
         return <div>{remainingTime}</div>
     }
     
-    const [playSound] = useSound(
-        '/coin.mp3',
-        {
-            volume: 0.25
-        }
-    )
-    if (metadata && graph) {
+    // const [playSound] = useSound(
+    //     '/Bull.mp3',
+    //     {
+    //         volume: 0.25
+    //     }
+    // )
+    if (data && graphData) {
         return (
             <AnimatePresence>
                 <motion.div
@@ -76,20 +76,15 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading}) {
                 transition={{ duration: 0.5 }}
                 exit="exit"
                 variants={variants}>
-                    <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button>
+                    {/* <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button> */}
                     <div style={{width: '100%', height: '2em', display: 'flex', justifyContent: 'flex-end'}}>
                             <CountdownCircleTimer
                             isPlaying
                             onComplete={() => {
-                                if (sound) {
-                                    playSound()
-                                }
-                                
+                            
                                 // Fetch data on complete
                                 fetchCrypto()
-                                // setTimeout(() => {
-                                //     fetchSparklines()    
-                                // }, 1000);                        
+                     
                                 return [true, 1500]
                             }}
                             duration={20}
@@ -103,15 +98,27 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading}) {
                                 {countdown}
                             </CountdownCircleTimer>
                         </div>
-                    <Graph data={data}/>
+                    <Graph data={graphData}/>
                     <div style={metaDataStyle}>
-                        <p>{metadata.currency}</p>
-                        <Metadata data={metadata}/>
-                    </div>
+                        <p>{data.currency}</p>
+                        <Metadata 
+                            data={data} 
+                            prevdata={prevMetaData} 
+                            playSound={playSound} 
+                            sound={sound}
+                            cramer={cramer}
+                            gilfoyle={gilfoyle}
+                            cramerSetting={cramerSetting}
+                            gilfoyleSetting={gilfoyleSetting}
+                            playBuy={playBuy}
+                            playSell={playSell}
+                            playGilfoyle={playGilfoyle}/>
+                    </div>                  
                 </motion.div>
             </AnimatePresence>
         )
-        } else {
+        } 
+        else {
         return (
             <AnimatePresence>
                 <motion.div

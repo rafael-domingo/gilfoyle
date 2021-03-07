@@ -4,12 +4,14 @@ import React from 'react';
 // Packages
 import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
+import Switch from 'react-switch';
 
 // Assets 
 import Setting from '../../assets/settings.png';
 
-function Nav() {
-   
+function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting}) {
+   const [checked, setChecked] = React.useState(false);
+
     const divStyle = {
         color: 'white',
         width: '20%',
@@ -61,6 +63,14 @@ function Nav() {
         'DOGE'
     ]
 
+    const handleCramerChange = (checked) => {
+        return cramerSetting(checked);
+    }
+
+    const handleGilfoyleChange = (checked) => {
+        return gilfoyleSetting(checked);
+    }
+ 
     return (
         <div style={divStyle}>
             <ul style={listStyle}>
@@ -83,6 +93,43 @@ function Nav() {
                     })
                 }
             </ul>
+            <label>
+            <span>Gilfoyle Mode</span>
+                <Switch
+                checked={gilfoyle}
+                onChange={(checked) => handleGilfoyleChange(checked)}
+                onColor="#86d3ff"
+                onHandleColor="#2693e6"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}
+                // className="react-switch"
+                // id="material-switch"
+                />    
+            </label>
+            <label>
+            <span>Cramer Mode</span>
+                <Switch
+                checked={cramer}
+                onChange={(checked) => handleCramerChange(checked)}
+                onColor="#86d3ff"
+                onHandleColor="#2693e6"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}
+                // className="react-switch"
+                // id="material-switch"
+                />    
+            </label>
+         
             <div style={divImgStyle}>
                 <Link to={`/settings`}>
                     <img style={imgStyle} src={Setting} />
