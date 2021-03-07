@@ -22,6 +22,8 @@ function App() {
     window.addEventListener('resize', () => {
       if (window.innerWidth < 1500) {
         setMobile(true)
+        setGilfoyle(false)
+        setCramer(false)
       } else {
         setMobile(false)
       }      

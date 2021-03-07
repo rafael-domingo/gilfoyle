@@ -22,8 +22,9 @@ function Title({mobile}) {
         alignItems: 'center',
         flexWrap: 'wrap',
         textAlign: 'center',
-        padding: '5em',
-        width: '100%'
+        padding: '1em',
+        width: '60%',
+        borderBottom: '1px solid white'
     }
     const h1Style = {
         fontSize: '4em',

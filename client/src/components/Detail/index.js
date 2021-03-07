@@ -140,7 +140,7 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, pl
                     exit="exit"
                     variants={variants}>
                         {/* <button onClick={() => setSound(!sound)}>{`Sound ${sound}`}</button> */}
-                        <div style={{fontSize: '0.5em', marginRight: '1em', marginTop: '1em', width: '90%', height: '0.5em', display: 'flex', justifyContent: 'flex-end'}}>
+                        <div style={{fontSize: '0.5em', marginRight: '0em', marginTop: '3em', width: '90%', height: '0.5em', display: 'flex', justifyContent: 'flex-end'}}>
                                 <CountdownCircleTimer
                                 isPlaying
                                 onComplete={() => {

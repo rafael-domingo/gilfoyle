@@ -27,11 +27,12 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
 
     const mobileDivStyle = {
         color: 'white',
-        width: '80%',
+        width: '50%',
         display: 'flex',
         justifyContent: 'center',
         flexWrap: 'wrap',
         alignItems: 'center',
+        padding: '1em'
     }
 
 
@@ -51,7 +52,7 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
 
     const mobileItemStyle = {
         margin: '1em',
-        fontSize: '1em'
+        fontSize: '1em',
     }
 
     const selectedItemStyle = {

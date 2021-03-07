@@ -52,7 +52,8 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
     }
 
     const mobileAnimatedStyle = {
-        width: '100%'
+        width: '100%',
+        margin: '1em'
     }
     const currentPrice = Math.ceil(data.price*100)/100;
     const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
