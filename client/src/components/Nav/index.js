@@ -11,7 +11,14 @@ function Nav({soundSetting, sound, cramer, gilfoyle, cramerSetting, gilfoyleSett
     const [selected, setSelected] = React.useState();
 
     React.useEffect(() => {
-        setSelected(crypto)
+        let isMounted = true;
+        if (isMounted) {
+            setSelected(crypto)
+        }
+
+        return () => {
+            isMounted = false;
+        }
     }, [crypto])
     
     const divStyle = {

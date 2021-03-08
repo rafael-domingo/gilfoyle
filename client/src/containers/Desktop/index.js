@@ -28,13 +28,18 @@ function Desktop({params, cramer, gilfoyle, cramerSetting, gilfoyleSetting, play
 
     // Initial data fetch before countdown starts
     React.useEffect(() => {
-      console.log(`Desktop previous: ${prevMetaData.price}`);
-      console.log(`Desktop current: ${metaData.price}`);
-      console.log('useeffect')
-      setLoaded(false);
-      console.log(`useEffect crypto: ${crypto}`);
-      // setMetaData({price: 0})
-      refreshCrypto(); 
+      let isMounted = true;
+      if (isMounted) {       
+        console.log('useeffect')
+        setLoaded(false);
+        console.log(`useEffect crypto: ${crypto}`);
+        // setMetaData({price: 0})
+        refreshCrypto(); 
+      }
+    
+      return () => {
+        isMounted = false;
+      }
     }, [crypto])
 
     // crypto fetch when changing crypto currency
@@ -83,6 +88,7 @@ function Desktop({params, cramer, gilfoyle, cramerSetting, gilfoyleSetting, play
           // return;
           setGraphData(sparkResponse[0].prices)
         } else {
+          setGraphData([]);
           console.log(sparkResponse)
           return;
         }          

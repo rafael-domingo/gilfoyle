@@ -5,14 +5,21 @@ import React from 'react';
 import AnimatedNumber from 'animated-number-react';
 
 function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
-    const [currentPrice, setCurrentPrice] = React.useState(data.price);
-    const [previousPrice, setPreviousPrice] = React.useState(prevdata.price);
+    const [currentPrice, setCurrentPrice] = React.useState(data);
+    const [previousPrice, setPreviousPrice] = React.useState(prevdata);
 
     React.useEffect(() => {
-        setCurrentPrice(data.price);
-        setPreviousPrice(currentPrice);
-        console.log(`metadata current: ${data.price}`);
-        console.log(`metadata previous: ${prevdata.price}`);
+        let isMounted = true;
+        if (isMounted) {
+            setCurrentPrice(data);
+            setPreviousPrice(currentPrice);
+            // console.log(`metadata current: ${data.price}`);
+            // console.log(`metadata previous: ${prevdata.price}`);
+        }
+     
+        return () => {
+            isMounted = false;
+        }
     }, [crypto, data, prevdata])
     
 
@@ -66,10 +73,10 @@ function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilf
         margin: '1em'
     }
 
-    const current = Math.ceil(currentPrice*100)/100;
+    const current = Math.ceil(currentPrice.price*100)/100;
     const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
     
-    const previous = Math.ceil(previousPrice*100)/100;
+    const previous = Math.ceil(previousPrice.price*100)/100;
     const prevPriceFormat = value => `$ ${value.toFixed(2)}`;
 
     const priceChange = current - previous;
@@ -77,18 +84,27 @@ function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilf
     
   
     React.useEffect(() => {
-        console.log('price change')
-        if (cramer) {
-            if (priceChange < 0) {
-                playSell();
-            } else if (priceChange > 0) {
-                playBuy();
-            }
-        } else if (gilfoyle) {
-            if (priceChange < 0 || priceChange > 0) {
-                playGilfoyle();
+        let isMounted = true; 
+
+        if (isMounted) {
+            console.log('price change')
+            if (cramer) {
+                if (priceChange < 0) {
+                    playSell();
+                } else if (priceChange > 0) {
+                    playBuy();
+                }
+            } else if (gilfoyle) {
+                if (priceChange < 0 || priceChange > 0) {
+                    playGilfoyle();
+                }
             }
         }
+
+        return () => {
+            isMounted = false;
+        }
+      
     }, [priceChange, cramer, gilfoyle, playSell, playBuy, playGilfoyle])
    
     if (mobile)  {

@@ -4,7 +4,16 @@ function Graph({data}) {
     const [graphData, setGraphData] = React.useState();
 
     React.useEffect(() => {
-        setGraphData(data)
+        let isMounted = true;
+
+        if (isMounted) {
+            setGraphData(data)
+
+        }
+
+        return () => {
+            isMounted = false;
+        }
     }, [data]);
 
     return (

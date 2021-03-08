@@ -15,11 +15,19 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, cr
     const [prev, setPrev] = React.useState(prevMetaData);
 
     React.useEffect(() => {
-        setGraphData(graph);
-        setData(metadata);
-        setPrev(prevMetaData);
-        // console.log(`detail current: ${metadata}`);
-        // console.log(`detail previous: ${prevMetaData}`);
+        let isMounted = true;
+        if (isMounted)  {
+            setGraphData(graph);
+            setData(metadata);
+            setPrev(prevMetaData);
+            // console.log(`detail current: ${metadata}`);
+            // console.log(`detail previous: ${prevMetaData}`);
+        }
+
+        return () => {
+            isMounted = false;
+        }
+  
     }, [crypto, graph,metadata,prevMetaData])
 
     const variants = {
@@ -93,7 +101,6 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, cr
                             <CountdownCircleTimer
                             isPlaying
                             onComplete={() => {
-                            
                                 // Fetch data on complete
                                 fetchCrypto()
                      
@@ -163,7 +170,7 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, cr
                         <div style={metaDataStyle}>
                             <Metadata 
                                 data={data} 
-                                prevdata={prevMetaData} 
+                                prevdata={prev} 
                                 cramer={cramer}
                                 gilfoyle={gilfoyle}
                                 cramerSetting={cramerSetting}

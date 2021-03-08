@@ -28,6 +28,19 @@ function App() {
     console.log(mobile);
   }, [mobile])
 
+  React.useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1500) {
+        setMobile(true)
+        setGilfoyle(false)
+        setCramer(false)
+      } else {
+        setMobile(false)
+      }      
+    });    
+    console.log(mobile);
+  }, [0])
+
   const cramerSetting = (value) => {
     console.log(`cramer setting: ${value}`)
 
