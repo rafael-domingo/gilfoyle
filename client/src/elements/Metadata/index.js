@@ -7,15 +7,12 @@ import AnimatedNumber from 'animated-number-react';
 function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
     const [currentPrice, setCurrentPrice] = React.useState(data.price);
     const [previousPrice, setPreviousPrice] = React.useState(prevdata.price);
-    const [change, setChange] = React.useState(0);
 
     React.useEffect(() => {
         setCurrentPrice(data.price);
         setPreviousPrice(currentPrice);
-        setChange(data.price - prevdata.price);
         console.log(`metadata current: ${data.price}`);
         console.log(`metadata previous: ${prevdata.price}`);
-        console.log(change);
     }, [crypto, data, prevdata])
     
 
@@ -69,15 +66,12 @@ function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilf
         margin: '1em'
     }
 
-    // console.log(data.price);
     const current = Math.ceil(currentPrice*100)/100;
     const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
-    // console.log(currentPrice);
     
     const previous = Math.ceil(previousPrice*100)/100;
     const prevPriceFormat = value => `$ ${value.toFixed(2)}`;
 
-    // console.log(prevPrice);
     const priceChange = current - previous;
     const pricechangeFormat = value => `$ ${value.toFixed(2)}`
     
@@ -116,7 +110,7 @@ function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilf
                 </div>
                 <div style={mobileAnimatedStyle}>
                     <AnimatedNumber
-                        value={change}
+                        value={priceChange}
                         formatValue={pricechangeFormat}
                         duration={1500}
                         />

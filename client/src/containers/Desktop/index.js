@@ -1,4 +1,3 @@
-import './Desktop.css';
 import React from 'react';
 
 // Components

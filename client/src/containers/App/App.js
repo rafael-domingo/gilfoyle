@@ -3,12 +3,10 @@ import React from 'react';
 
 // Components
 import Desktop from '../Desktop';
-import Mobile from '../Mobile';
 
 // APIs
 
 // Packages
-import ReactLoading from 'react-loading';
 import { Switch, Route } from "react-router-dom";
 import useSound from 'use-sound';
 
