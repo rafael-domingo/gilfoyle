@@ -8,7 +8,7 @@ const router = express.Router();
 const fetch = require('node-fetch');
 
 // Current price/data
-router.get('/:crypto', (req, res) => {
+router.get('/api/:crypto', (req, res) => {
     console.log('fetched')
   fetch(`${url}key=${apiKey}&ids=${req.params.crypto}&interval=${interval}`)
   .then(response => response.json())
@@ -19,7 +19,7 @@ router.get('/:crypto', (req, res) => {
 }) 
 
 // Historical prices
-router.get('/:crypto/historical', (req, res) => {
+router.get('/api/:crypto/historical', (req, res) => {
     fetch(`https://api.nomics.com/v1/currencies/sparkline?key=${apiKey}&ids=${req.params.crypto}&start=2021-01-01T00%3A00%3A00Z`)
     .then(response => response.json())
     .then(jsonResponse => {

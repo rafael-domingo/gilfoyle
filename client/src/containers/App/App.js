@@ -13,33 +13,6 @@ import useSound from 'use-sound';
 function App() {
   const [cramer, setCramer] = React.useState(false);
   const [gilfoyle, setGilfoyle] = React.useState(false);
-  const [mobile, setMobile] = React.useState(false);
- 
-  React.useEffect(() => {
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 1500) {
-        setMobile(true)
-        setGilfoyle(false)
-        setCramer(false)
-      } else {
-        setMobile(false)
-      }      
-    });    
-    console.log(mobile);
-  }, [mobile])
-
-  React.useEffect(() => {
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 1500) {
-        setMobile(true)
-        setGilfoyle(false)
-        setCramer(false)
-      } else {
-        setMobile(false)
-      }      
-    });    
-    console.log(mobile);
-  }, [0])
 
   const cramerSetting = (value) => {
     console.log(`cramer setting: ${value}`)
@@ -76,36 +49,69 @@ function App() {
         volume: 1
     }
   )
-  // if (!mobile) {
-    return (
-      <div className="App">
-        <Switch>
-          <Route exact path='/'>
-            <Desktop 
-              cramer={cramer}
-              gilfoyle={gilfoyle}
-              cramerSetting={cramerSetting}
-              gilfoyleSetting={gilfoyleSetting}
-              playBuy={playBuy}
-              playSell={playSell}
-              playGilfoyle={playGilfoyle}
-              mobile={mobile}/>
-          </Route>
-          <Route exact path='/:crypto'>
-            <Desktop 
-              params={false} 
-              cramer={cramer}
-              gilfoyle={gilfoyle}
-              cramerSetting={cramerSetting}
-              gilfoyleSetting={gilfoyleSetting}
-              playBuy={playBuy}
-              playSell={playSell}
-              playGilfoyle={playGilfoyle}
-              mobile={mobile}/>
-          </Route>     
-        </Switch>
-      </div>
-    );
+    if (window.innerWidth < 1500) {
+      return (
+        <div className="App">
+          <Switch>
+            <Route exact path='/'>
+              <Desktop 
+                cramer={cramer}
+                gilfoyle={gilfoyle}
+                cramerSetting={cramerSetting}
+                gilfoyleSetting={gilfoyleSetting}
+                playBuy={playBuy}
+                playSell={playSell}
+                playGilfoyle={playGilfoyle}
+                mobile={true}/>
+            </Route>
+            <Route exact path='/:crypto'>
+              <Desktop 
+                params={false} 
+                cramer={cramer}
+                gilfoyle={gilfoyle}
+                cramerSetting={cramerSetting}
+                gilfoyleSetting={gilfoyleSetting}
+                playBuy={playBuy}
+                playSell={playSell}
+                playGilfoyle={playGilfoyle}
+                mobile={true}/>
+            </Route>     
+          </Switch>
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Switch>
+            <Route exact path='/'>
+              <Desktop 
+                cramer={cramer}
+                gilfoyle={gilfoyle}
+                cramerSetting={cramerSetting}
+                gilfoyleSetting={gilfoyleSetting}
+                playBuy={playBuy}
+                playSell={playSell}
+                playGilfoyle={playGilfoyle}
+                mobile={false}/>
+            </Route>
+            <Route exact path='/:crypto'>
+              <Desktop 
+                params={false} 
+                cramer={cramer}
+                gilfoyle={gilfoyle}
+                cramerSetting={cramerSetting}
+                gilfoyleSetting={gilfoyleSetting}
+                playBuy={playBuy}
+                playSell={playSell}
+                playGilfoyle={playGilfoyle}
+                mobile={false}/>
+            </Route>     
+          </Switch>
+        </div>
+      );
+    }
+  
+
 }
 
 export default App;
