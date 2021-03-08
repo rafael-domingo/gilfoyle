@@ -4,8 +4,21 @@ import React from 'react';
 // Packages
 import AnimatedNumber from 'animated-number-react';
 
-function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
+function Metadata({crypto, data, prevdata, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
+    const [currentPrice, setCurrentPrice] = React.useState(data.price);
+    const [previousPrice, setPreviousPrice] = React.useState(prevdata.price);
+    const [change, setChange] = React.useState(0);
+
+    React.useEffect(() => {
+        setCurrentPrice(data.price);
+        setPreviousPrice(currentPrice);
+        setChange(data.price - prevdata.price);
+        console.log(`metadata current: ${data.price}`);
+        console.log(`metadata previous: ${prevdata.price}`);
+        console.log(change);
+    }, [crypto, data, prevdata])
     
+
     const divStyle = {
         color: 'white',
         fontSize: '1.5em',
@@ -55,16 +68,20 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
         width: '100%',
         margin: '1em'
     }
-    const currentPrice = Math.ceil(data.price*100)/100;
-    const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
 
+    // console.log(data.price);
+    const current = Math.ceil(currentPrice*100)/100;
+    const currentPriceFormat = value => `$ ${value.toFixed(2)}`;
+    // console.log(currentPrice);
     
-    const prevPrice = Math.ceil(data.price*100/100);
+    const previous = Math.ceil(previousPrice*100)/100;
     const prevPriceFormat = value => `$ ${value.toFixed(2)}`;
 
-    const priceChange = currentPrice - prevPrice;
+    // console.log(prevPrice);
+    const priceChange = current - previous;
     const pricechangeFormat = value => `$ ${value.toFixed(2)}`
     
+  
     React.useEffect(() => {
         console.log('price change')
         if (cramer) {
@@ -91,7 +108,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 
                 <div style={mobileAnimatedStyle}>
                 <AnimatedNumber
-                    value={currentPrice}
+                    value={current}
                     formatValue={currentPriceFormat}
                     duration={1500}
                     />
@@ -99,7 +116,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 </div>
                 <div style={mobileAnimatedStyle}>
                     <AnimatedNumber
-                        value={priceChange}
+                        value={change}
                         formatValue={pricechangeFormat}
                         duration={1500}
                         />
@@ -107,7 +124,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 </div>
                 <div style={mobileAnimatedStyle}>
                     <AnimatedNumber
-                        value={prevPrice}
+                        value={previous}
                         formatValue={prevPriceFormat}
                         duration={1500}
                         />
@@ -128,7 +145,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 
                 <div style={animatedStyle}>
                 <AnimatedNumber
-                    value={currentPrice}
+                    value={current}
                     formatValue={currentPriceFormat}
                     duration={1500}
                     />
@@ -144,7 +161,7 @@ function Metadata({data, prevdata, change, playSound, sound, cramer, gilfoyle, c
                 </div>
                 <div style={animatedStyle}>
                     <AnimatedNumber
-                        value={prevPrice}
+                        value={previous}
                         formatValue={prevPriceFormat}
                         duration={1500}
                         />

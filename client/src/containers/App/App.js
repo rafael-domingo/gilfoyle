@@ -13,7 +13,6 @@ import { Switch, Route } from "react-router-dom";
 import useSound from 'use-sound';
 
 function App() {
-  const [sound, setSound] = React.useState(false);
   const [cramer, setCramer] = React.useState(false);
   const [gilfoyle, setGilfoyle] = React.useState(false);
   const [mobile, setMobile] = React.useState(false);
@@ -31,16 +30,6 @@ function App() {
     console.log(mobile);
   }, [mobile])
 
-  React.useEffect(() => {
-    console.log(`App sound`)
-  }, [sound])
-
-
-  const soundSetting = (value) => {
-    console.log(`Sound setting: ${value}`)
-    setSound(value);
-  }
-
   const cramerSetting = (value) => {
     console.log(`cramer setting: ${value}`)
 
@@ -55,13 +44,6 @@ function App() {
     setCramer(false);
   }
 
-
-  const [playSound] = useSound(
-    '/Hallelujah.mp3',
-    {
-        volume: 0.25
-    }
-  )
 
   const [playBuy] = useSound(
     '/Hallelujah.mp3',
@@ -89,9 +71,6 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <Desktop 
-              soundSetting={soundSetting} 
-              sound={sound} 
-              playSound={playSound}
               cramer={cramer}
               gilfoyle={gilfoyle}
               cramerSetting={cramerSetting}
@@ -104,9 +83,6 @@ function App() {
           <Route exact path='/:crypto'>
             <Desktop 
               params={false} 
-              soundSetting={soundSetting} 
-              sound={sound} 
-              playSound={playSound}
               cramer={cramer}
               gilfoyle={gilfoyle}
               cramerSetting={cramerSetting}
@@ -115,33 +91,10 @@ function App() {
               playSell={playSell}
               playGilfoyle={playGilfoyle}
               mobile={mobile}/>
-          </Route>
-          <Route exact path='/settings'>
-            <Desktop 
-              soundSetting={soundSetting} 
-              sound={sound} 
-              playSound={playSound}
-              cramer={cramer}
-              gilfoyle={gilfoyle}
-              cramerSetting={cramerSetting}
-              gilfoyleSetting={gilfoyleSetting}
-              playBuy={playBuy}
-              playSell={playSell}
-              playGilfoyle={playGilfoyle}/>
-          </Route>
+          </Route>     
         </Switch>
       </div>
     );
-  // } else {
-  //   return (
-  //     <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-  //     <ReactLoading type={'spin'} height={'10%'} width={'10%'} />
-  //     </div>
-  //   )
-  
-  // }
-
-
 }
 
 export default App;

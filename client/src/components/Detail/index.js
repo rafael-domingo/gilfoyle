@@ -9,13 +9,18 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactLoading from 'react-loading';
 
-function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, playSound, sound, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
+function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, cramer, gilfoyle, cramerSetting, gilfoyleSetting, playBuy, playSell, playGilfoyle, mobile}) {
     const [graphData, setGraphData] = React.useState(graph);
     const [data, setData] = React.useState(metadata);
+    const [prev, setPrev] = React.useState(prevMetaData);
+
     React.useEffect(() => {
         setGraphData(graph);
         setData(metadata);
-    }, [graph,metadata])
+        setPrev(prevMetaData);
+        // console.log(`detail current: ${metadata}`);
+        // console.log(`detail previous: ${prevMetaData}`);
+    }, [crypto, graph,metadata,prevMetaData])
 
     const variants = {
         initial: { opacity: 0, x: 0},
@@ -73,12 +78,6 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, pl
         return <div>{remainingTime}</div>
     }
     
-    // const [playSound] = useSound(
-    //     '/Bull.mp3',
-    //     {
-    //         volume: 0.25
-    //     }
-    // )
     if (!mobile && data && graphData) {
         return (
             <AnimatePresence>
@@ -114,10 +113,9 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, pl
                     <Graph data={graphData}/>
                     <div style={metaDataStyle}>
                         <Metadata 
+                            crypto={crypto}
                             data={data} 
-                            prevdata={prevMetaData} 
-                            playSound={playSound} 
-                            sound={sound}
+                            prevdata={prev} 
                             cramer={cramer}
                             gilfoyle={gilfoyle}
                             cramerSetting={cramerSetting}
@@ -166,8 +164,6 @@ function Detail({graph, metadata, prevMetaData, fetchCrypto, loading, crypto, pl
                             <Metadata 
                                 data={data} 
                                 prevdata={prevMetaData} 
-                                playSound={playSound} 
-                                sound={sound}
                                 cramer={cramer}
                                 gilfoyle={gilfoyle}
                                 cramerSetting={cramerSetting}
